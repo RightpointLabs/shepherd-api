@@ -8,6 +8,11 @@ This is an Azure Function project that serves as an API to an Azure Cosmos DB in
 - Install .NET Core 2.1 SDK [https://www.microsoft.com/net/download](https://www.microsoft.com/net/download)
 - Run `npm install -g azure-functions-core-tools`
 
+## Debugging
+```
+func host start --build --debug VSCode
+```
+
 ## Entity Relationships
 - ( topic ) -[ has multiple ]-> ( commitment )
 - ( topic ) -[ has multiple ]-> ( votes )
