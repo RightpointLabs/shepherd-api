@@ -20,7 +20,8 @@ namespace FunctionApp.Functions
     {
         [FunctionName("CreateCommitment")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "commitments")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "topics/{id}/commitments")] HttpRequest req,
+            string id,
             [Inject] IRepository repository,
             ILogger log)
         {
@@ -31,7 +32,7 @@ namespace FunctionApp.Functions
 
             try
             {
-                Commitment commitment = new Commitment(commitmentRequest.TopicId, commitmentRequest.PersonId, commitmentRequest.EventDate, commitmentRequest.EventType);
+                Commitment commitment = new Commitment(id, commitmentRequest.PersonId, commitmentRequest.EventDate, commitmentRequest.EventType);
 
                 await repository.AddCommitment(commitment);
 
