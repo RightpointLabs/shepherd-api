@@ -24,7 +24,13 @@ namespace FunctionApp.DataAccess
 
         public async Task<Topic> AddTopic(Topic topic)
         {
-            throw new NotImplementedException();
+            var g = this._graphClient.CreateTraversalSource();
+
+            var query = g.AddV<TopicVertex>(new TopicVertex().FromDomain(topic));
+
+            var response = await this._graphClient.QueryAsync<TopicVertex>(query);
+
+            return response.Single().ToDomain();
         }
 
         public async Task DeleteCommitmentById(string id)
@@ -60,7 +66,7 @@ namespace FunctionApp.DataAccess
 
             var response = await this._graphClient.QueryAsync<PersonVertex>(query);
 
-            return response.Select(x => x.ToPerson());
+            return response.Select(x => x.ToDomain());
         }
 
         public async Task<Person> GetPersonById(string id)
@@ -81,7 +87,7 @@ namespace FunctionApp.DataAccess
 
             var response = await this._graphClient.QueryAsync<TopicVertex>(query);
 
-            return response.Select(x => x.ToTopic());
+            return response.Select(x => x.ToDomain());
         }
 
         public async Task<Person> UpsertPerson(Person person)
@@ -92,7 +98,7 @@ namespace FunctionApp.DataAccess
 
             var response = await this._graphClient.QueryAsync<PersonVertex>(query);
 
-            return response.Single().ToPerson();
+            return response.Single().ToDomain();
         }
     }
 }

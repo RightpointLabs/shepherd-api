@@ -28,11 +28,11 @@ namespace FunctionApp.Functions
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             CreateTopicRequest topicRequest = JsonConvert.DeserializeObject<CreateTopicRequest>(requestBody);
 
-            Topic topic = new Topic(topicRequest.Title, topicRequest.SuccessCriteria, topicRequest.Requestor);
+            Topic topic = new Topic(topicRequest.Title, topicRequest.SuccessCriteria, topicRequest.PersonId);
 
-            await repository.AddTopic(topic);
+            Topic topicResult = await repository.AddTopic(topic);
 
-            return new OkResult();
+            return new OkObjectResult(topicResult);
         }
     }
 }

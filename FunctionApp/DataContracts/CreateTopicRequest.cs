@@ -6,6 +6,6 @@ namespace FunctionApp.DataContracts
 
         public string SuccessCriteria { get; set; }
 
-        public string Requestor { get; set; }
+        public string PersonId { get; set; }
     }
 }
