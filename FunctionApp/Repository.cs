@@ -8,11 +8,19 @@ namespace FunctionApp
 {
     public interface IRepository
     {
+        Task<Commitment> AddCommitment(Topic topic);
+
         Task<Topic> AddTopic(Topic topic);
+
+        Task DeleteCommitmentById(string id);
 
         Task DeleteTopicById(string id);
 
+        Task<Commitment> GetCommitmentById(string id);
+
         Task<Topic> GetTopicById(string id);
+
+        Task<IEnumerable<Commitment>> GetCommitments();
 
         Task<IEnumerable<Topic>> GetTopics();
     }
@@ -55,6 +63,13 @@ namespace FunctionApp
             }
         };
 
+        public Task<Commitment> AddCommitment(Topic topic)
+        {
+            this.Topics.Add(topic);
+
+            return topic;
+        }
+
         public async Task<Topic> AddTopic(Topic topic)
         {
             this.Topics.Add(topic);
@@ -62,20 +77,43 @@ namespace FunctionApp
             return topic;
         }
 
+        public Task DeleteCommitmentById(string id)
+        {
+            Commitment commitment = this.Commitments.SingleOrDefault(x => x.Id == id);
+
+            if (commitment == null) throw new ObjectNotFoundException();
+
+            this.Commitments.Remove(commitment);
+        }
+
         public async Task DeleteTopicById(string id)
         {
             Topic topic = this.Topics.SingleOrDefault(x => x.Id == id);
 
-            if(topic == null) throw new ObjectNotFoundException();
+            if (topic == null) throw new ObjectNotFoundException();
 
             this.Topics.Remove(topic);
+        }
+
+        public Task<Commitment> GetCommitmentById(string id)
+        {
+            Commitment commitment = this.Commitments.SingleOrDefault(x => x.Id == id);
+
+            if (commitment == null) throw new ObjectNotFoundException();
+
+            return commitment;
+        }
+
+        public Task<IEnumerable<Commitment>> GetCommitments()
+        {
+            return this.Commitments.AsEnumerable();
         }
 
         public async Task<Topic> GetTopicById(string id)
         {
             Topic topic = this.Topics.SingleOrDefault(x => x.Id == id);
 
-            if(topic == null) throw new ObjectNotFoundException();
+            if (topic == null) throw new ObjectNotFoundException();
 
             return topic;
         }
