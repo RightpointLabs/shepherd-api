@@ -6,7 +6,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 
-namespace FunctionApp
+namespace FunctionApp.Functions
 {
     public static class GetTopics
     {
