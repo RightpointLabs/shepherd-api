@@ -17,9 +17,11 @@ namespace functions
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "topics")] HttpRequest req,
             ILogger log)
         {
+            IRepository repository = new MockRepository();
+
             log.LogInformation("Getting all Topics.");
 
-            return (ActionResult)new OkObjectResult(Data.Topics);
+            return (ActionResult)new OkObjectResult(await repository.GetTopics());
         }
     }
 }
