@@ -1,6 +1,6 @@
 using System;
 
-namespace functions.Models
+namespace FunctionApp.Models
 {
     public class Commitment
     {

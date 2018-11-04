@@ -1,6 +1,6 @@
 using System;
 
-namespace functions
+namespace FunctionApp
 {
     public class ObjectNotFoundException : Exception
     {

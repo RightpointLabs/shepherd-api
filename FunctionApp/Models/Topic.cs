@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace functions.Models
+namespace FunctionApp.Models
 {
     public class Topic
     {
