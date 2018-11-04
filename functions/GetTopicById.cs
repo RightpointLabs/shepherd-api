@@ -10,14 +10,14 @@ using Newtonsoft.Json;
 
 namespace functions
 {
-    public static class GetTopics
+    public static class GetTopicById
     {
-        [FunctionName("GetTopics")]
+        [FunctionName("GetTopicById")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "topics")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "topics/{id}")] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("Getting all Topics.");
+            log.LogInformation("Getting Topic by ID");
 
             string name = req.Query["name"];
 
