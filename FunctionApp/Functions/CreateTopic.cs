@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 using FunctionApp.Models;
 using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 
-namespace FunctionApp
+namespace FunctionApp.Functions
 {
     public static class CreateTopic
     {
