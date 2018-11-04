@@ -7,6 +7,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 
 namespace functions
 {
@@ -15,19 +16,13 @@ namespace functions
         [FunctionName("GetTopicById")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "topics/{id}")] HttpRequest req,
+            string id,
+            [Inject] IRepository repository,
             ILogger log)
         {
-            log.LogInformation("Getting Topic by ID");
+            log.LogInformation($"Getting Topic by ID: {id}");
 
-            string name = req.Query["name"];
-
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-            name = name ?? data?.name;
-
-            return name != null
-                ? (ActionResult)new OkObjectResult($"Hello, {name}")
-                : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
+            return new OkObjectResult(await repository.GetTopicById(id));
         }
     }
 }
