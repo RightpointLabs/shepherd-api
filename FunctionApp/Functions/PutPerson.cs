@@ -15,22 +15,22 @@ using FunctionApp.Models;
 
 namespace FunctionApp.Functions
 {
-    public static class CreatePerson
+    public static class PutPerson
     {
-        [FunctionName("CreatePerson")]
+        [FunctionName("PutPerson")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = "people")] HttpRequest req,
             [Inject] IRepository repository,
             ILogger log)
         {
-            log.LogInformation("Create Person request received");
+            log.LogInformation("Put Person request received");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            CreatePersonRequest personRequest = JsonConvert.DeserializeObject<CreatePersonRequest>(requestBody);
+            PutPersonRequest personRequest = JsonConvert.DeserializeObject<PutPersonRequest>(requestBody);
 
             Person person = new Person(personRequest.Id, personRequest.Name);
 
-            await repository.AddPerson(person);
+            await repository.UpsertPerson(person);
 
             return new OkResult();
         }

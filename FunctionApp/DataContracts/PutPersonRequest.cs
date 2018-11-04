@@ -2,7 +2,7 @@ using System;
 
 namespace FunctionApp.DataContracts
 {
-    public class CreatePersonRequest
+    public class PutPersonRequest
     {
         public string Id { get; set; }
 

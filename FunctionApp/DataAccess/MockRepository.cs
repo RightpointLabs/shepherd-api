@@ -45,15 +45,6 @@ namespace FunctionApp.DataAccess
             return commitment;
         }
 
-        public async Task<Person> AddPerson(Person person)
-        {
-            if(this.People.Any(x => x.Id == person.Id)) return person;
-
-            this.People.Add(person);
-
-            return person;
-        }
-
         public async Task<Topic> AddTopic(Topic topic)
         {
             this.Topics.Add(topic);
@@ -114,6 +105,17 @@ namespace FunctionApp.DataAccess
         public async Task<IEnumerable<Topic>> GetTopics()
         {
             return this.Topics.AsEnumerable();
+        }
+
+        public async Task<Person> UpsertPerson(Person person)
+        {
+            Person existingPerson = this.People.SingleOrDefault(x => x.Id == person.Id);
+
+            if(existingPerson != null) return existingPerson;
+
+            this.People.Add(person);
+
+            return person;
         }
     }
 }
