@@ -40,6 +40,9 @@ namespace FunctionApp.DataAccess
 
         public async Task<Commitment> AddCommitment(Commitment commitment)
         {
+            // TODO: check if commitment exists
+            // if(exists) throw new ObjectAlreadyExistsException();
+            
             this.Commitments.Add(commitment);
 
             return commitment;
