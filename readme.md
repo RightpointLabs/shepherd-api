@@ -6,7 +6,7 @@ This is an Azure Function project that serves as an API to an Azure Cosmos DB in
 ## Setup
 - Install Node v10.13.x [https://nodejs.org](https://nodejs.org)
 - Install .NET Core 2.1 SDK [https://www.microsoft.com/net/download](https://www.microsoft.com/net/download)
-- Run `npm install -g azure-functions-core-tools`
+- Run `npm install -g azure-functions-core-tools`. _Note: if you have any issues installing this (e.g., you're on MacOS), check out the [official instructions](https://github.com/Azure/azure-functions-core-tools)_.
 
 ## Debugging
 ```
