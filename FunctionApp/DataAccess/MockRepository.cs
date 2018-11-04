@@ -33,11 +33,25 @@ namespace FunctionApp.DataAccess
             }
         };
 
+        private List<Person> People = new List<Person>()
+        {
+            new Person("93501a1c-f832-44ba-95a6-0c968e6189d2", "Brandon Barnett")
+        };
+
         public async Task<Commitment> AddCommitment(Commitment commitment)
         {
             this.Commitments.Add(commitment);
 
             return commitment;
+        }
+
+        public async Task<Person> AddPerson(Person person)
+        {
+            if(this.People.Any(x => x.Id == person.Id)) return person;
+
+            this.People.Add(person);
+
+            return person;
         }
 
         public async Task<Topic> AddTopic(Topic topic)
@@ -77,6 +91,15 @@ namespace FunctionApp.DataAccess
         public async Task<IEnumerable<Commitment>> GetCommitments()
         {
             return this.Commitments.AsEnumerable();
+        }
+
+        public async Task<Person> GetPersonById(string id)
+        {
+            Person person = this.People.SingleOrDefault(x => x.Id == id);
+
+            if (person == null) throw new ObjectNotFoundException();
+
+            return person;
         }
 
         public async Task<Topic> GetTopicById(string id)

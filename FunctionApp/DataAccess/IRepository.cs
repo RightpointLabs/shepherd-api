@@ -8,6 +8,8 @@ namespace FunctionApp.DataAccess
     {
         Task<Commitment> AddCommitment(Commitment commitment);
 
+        Task<Person> AddPerson(Person person);
+
         Task<Topic> AddTopic(Topic topic);
 
         Task DeleteCommitmentById(string id);
@@ -16,9 +18,11 @@ namespace FunctionApp.DataAccess
 
         Task<Commitment> GetCommitmentById(string id);
 
-        Task<Topic> GetTopicById(string id);
-
         Task<IEnumerable<Commitment>> GetCommitments();
+
+        Task<Person> GetPersonById(string id);
+
+        Task<Topic> GetTopicById(string id);
 
         Task<IEnumerable<Topic>> GetTopics();
     }
