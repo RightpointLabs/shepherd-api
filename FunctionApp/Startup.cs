@@ -1,4 +1,5 @@
 using FunctionApp;
+using FunctionApp.DataAccess;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.DependencyInjection;

@@ -7,9 +7,11 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using FunctionApp.Models;
 using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
+
 using FunctionApp.DataContracts;
+using FunctionApp.DataAccess;
+using FunctionApp.Models;
 
 namespace FunctionApp.Functions
 {

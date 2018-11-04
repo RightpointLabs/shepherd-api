@@ -6,6 +6,10 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 
+using FunctionApp.DataContracts;
+using FunctionApp.DataAccess;
+using FunctionApp.Models;
+
 namespace FunctionApp.Functions
 {
     public static class GetCommitments
