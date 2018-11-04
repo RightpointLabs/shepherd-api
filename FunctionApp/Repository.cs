@@ -45,7 +45,7 @@ namespace FunctionApp
 
         private List<Commitment> Commitments = new List<Commitment>()
         {
-            new Commitment("Joe Architect", DateTime.Parse("11/09/2018 12:00 PM"), "Brain Food Friday")
+            new Commitment("d033a5d1-5346-4133-baa9-3db379a8ea8b", "Joe Architect", DateTime.Parse("11/09/2018 12:00 PM"), "Brain Food Friday")
             {
                 Id = "c928a90b-1130-4315-a917-94f3971e9d6e",
                 CommittedDate = DateTime.Parse("11/03/2018 11:24 AM")

@@ -16,12 +16,14 @@ namespace FunctionApp.Models
 
         public Topic Topic { get; set; }
 
-        public Commitment(string teacher, DateTime eventDate, string eventType)
+        public Commitment(string topicId, string teacher, DateTime eventDate, string eventType)
         {
+            if(String.IsNullOrEmpty(topicId)) throw new ArgumentNullException(nameof(topicId));
             if(String.IsNullOrEmpty(teacher)) throw new ArgumentNullException(nameof(teacher));
             if(eventDate < DateTime.UtcNow) throw new ArgumentOutOfRangeException(nameof(eventDate), "Event cannot occur in the past");
             if(String.IsNullOrEmpty(eventType)) throw new ArgumentNullException(nameof(eventType));
 
+            // set Topic ID
             this.Teacher = teacher;
             this.EventDate = eventDate;
             this.EventType = eventType;
