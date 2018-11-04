@@ -29,11 +29,18 @@ namespace FunctionApp.Functions
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             CreateCommitmentRequest commitmentRequest = JsonConvert.DeserializeObject<CreateCommitmentRequest>(requestBody);
 
-            Commitment commitment = new Commitment(commitmentRequest.TopicId, commitmentRequest.Teacher, commitmentRequest.EventDate, commitmentRequest.EventType);
+            try
+            {
+                Commitment commitment = new Commitment(commitmentRequest.TopicId, commitmentRequest.Teacher, commitmentRequest.EventDate, commitmentRequest.EventType);
 
-            await repository.AddCommitment(commitment);
+                await repository.AddCommitment(commitment);
 
-            return new OkResult();
+                return new OkResult();
+            }
+            catch (ObjectAlreadyExistsException e)
+            {
+                return new ConflictResult();
+            }
         }
     }
 }

@@ -26,7 +26,16 @@ namespace FunctionApp.Functions
         {
             log.LogInformation($"Getting Commitment by ID: {id}");
 
-            return new OkObjectResult(await repository.GetCommitmentById(id));
+            try
+            {
+                Commitment commitment = await repository.GetCommitmentById(id);
+
+                return new OkObjectResult(commitment);
+            }
+            catch (ObjectNotFoundException e)
+            {
+                return new NotFoundResult();
+            }
         }
     }
 }

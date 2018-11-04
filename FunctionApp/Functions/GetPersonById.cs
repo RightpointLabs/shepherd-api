@@ -26,7 +26,16 @@ namespace FunctionApp.Functions
         {
             log.LogInformation($"Getting Person by ID: {id}");
 
-            return new OkObjectResult(await repository.GetPersonById(id));
+            try
+            {
+                Person person = await repository.GetPersonById(id);
+
+                return new OkObjectResult(person);
+            }
+            catch (ObjectNotFoundException e)
+            {
+                return new NotFoundResult();
+            }
         }
     }
 }
