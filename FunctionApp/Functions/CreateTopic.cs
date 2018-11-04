@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using FunctionApp.Models;
 using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
+using FunctionApp.DataContracts;
 
 namespace FunctionApp.Functions
 {
@@ -23,7 +24,9 @@ namespace FunctionApp.Functions
             log.LogInformation("Create Topic request received");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            Topic topic = JsonConvert.DeserializeObject<Topic>(requestBody);
+            CreateTopicRequest topicRequest = JsonConvert.DeserializeObject<CreateTopicRequest>(requestBody);
+
+            Topic topic = new Topic(topicRequest.Title, topicRequest.SuccessCriteria, topicRequest.Requestor);
 
             await repository.AddTopic(topic);
 
