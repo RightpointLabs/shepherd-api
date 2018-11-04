@@ -6,16 +6,18 @@ namespace FunctionApp.Models
     {
         public string Id { get; set; }
 
+        public string ExternalId { get; set; }
+
         public string Name { get; set; }
 
         public Person() { }
 
-        public Person(string id, string name)
+        public Person(string externalId, string name)
         {
-            if (String.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
+            if (String.IsNullOrEmpty(externalId)) throw new ArgumentNullException(nameof(externalId));
             if (String.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
 
-            this.Id = id;
+            this.ExternalId = externalId;
             this.Name = name;
         }
     }

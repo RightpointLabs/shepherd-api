@@ -28,7 +28,7 @@ namespace FunctionApp.Functions
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             PutPersonRequest personRequest = JsonConvert.DeserializeObject<PutPersonRequest>(requestBody);
 
-            Person person = new Person(personRequest.Id, personRequest.Name);
+            Person person = new Person(personRequest.ExternalId, personRequest.Name);
 
             await repository.UpsertPerson(person);
 

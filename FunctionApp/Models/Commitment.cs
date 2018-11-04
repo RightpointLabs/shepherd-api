@@ -30,7 +30,6 @@ namespace FunctionApp.Models
             this.EventDate = eventDate;
             this.EventType = eventType;
 
-            this.Id = Guid.NewGuid().ToString();
             this.CommittedDate = DateTime.UtcNow;
         }
     }

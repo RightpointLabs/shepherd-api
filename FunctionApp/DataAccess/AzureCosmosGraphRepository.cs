@@ -56,11 +56,11 @@ namespace FunctionApp.DataAccess
         {
             var g = this._graphClient.CreateTraversalSource();
 
-            var query = g.V().HasLabel("person");
+            var query = g.V<PersonVertex>();
 
             var response = await this._graphClient.QueryAsync<PersonVertex>(query);
 
-            return response.Select(x => new Person());
+            return response.Select(x => x.ToPerson());
         }
 
         public async Task<Person> GetPersonById(string id)
@@ -77,23 +77,22 @@ namespace FunctionApp.DataAccess
         {
             var g = this._graphClient.CreateTraversalSource();
 
-            var query = g.V().HasLabel("topic");
+            var query = g.V<TopicVertex>();
 
-            var response = await this._graphClient.QueryAsync<Topic>(query);
+            var response = await this._graphClient.QueryAsync<TopicVertex>(query);
 
-            return response;
+            return response.Select(x => x.ToTopic());
         }
 
         public async Task<Person> UpsertPerson(Person person)
         {
             var g = this._graphClient.CreateTraversalSource();
 
-            var query = g
-                .AddV<PersonVertex>(new PersonVertex { ExternalId = person.Id, Name = person.Name });
+            var query = g.AddV<PersonVertex>(new PersonVertex { ExternalId = person.ExternalId, Name = person.Name });
 
-            await this._graphClient.SubmitAsync(query);
+            var response = await this._graphClient.QueryAsync<PersonVertex>(query);
 
-            return person;
+            return response.Single().ToPerson();
         }
     }
 }

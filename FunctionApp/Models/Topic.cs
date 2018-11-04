@@ -31,7 +31,6 @@ namespace FunctionApp.Models
             this.SuccessCriteria = successCriteria;
             this.Requestor = requestor;
 
-            this.Id = Guid.NewGuid().ToString();
             this.RequestedDate = DateTime.UtcNow;
         }
     }
