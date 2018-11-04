@@ -14,8 +14,9 @@ func host start --build --debug VSCode
 ```
 
 ## Entity Relationships
-- ( topic ) -[ has multiple ]-> ( commitment )
-- ( topic ) -[ has multiple ]-> ( votes )
+- ( person ) -[ request ]-> ( topic )
+- ( person ) -[ commitment ]-> ( topic )
+- ( person ) -[ vote ]-> ( topic )
 
 ## Backlog
 
