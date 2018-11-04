@@ -8,8 +8,12 @@ namespace functions
 {
     public interface IRepository
     {
+        Task<Topic> AddTopic(Topic topic);
+
+        Task DeleteTopicById(string id);
+
         Task<Topic> GetTopicById(string id);
-        
+
         Task<IEnumerable<Topic>> GetTopics();
     }
 
@@ -51,9 +55,29 @@ namespace functions
             }
         };
 
+        public async Task<Topic> AddTopic(Topic topic)
+        {
+            this.Topics.Add(topic);
+
+            return topic;
+        }
+
+        public async Task DeleteTopicById(string id)
+        {
+            Topic topic = this.Topics.SingleOrDefault(x => x.Id == id);
+
+            if(topic == null) throw new ObjectNotFoundException();
+
+            this.Topics.Remove(topic);
+        }
+
         public async Task<Topic> GetTopicById(string id)
         {
-            return this.Topics.Single(x => x.Id == id);
+            Topic topic = this.Topics.SingleOrDefault(x => x.Id == id);
+
+            if(topic == null) throw new ObjectNotFoundException();
+
+            return topic;
         }
 
         public async Task<IEnumerable<Topic>> GetTopics()
