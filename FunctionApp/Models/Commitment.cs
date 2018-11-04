@@ -16,6 +16,8 @@ namespace FunctionApp.Models
 
         public string EventType { get; set; }
 
+        public Commitment() { }
+
         public Commitment(string topicId, string personId, DateTime eventDate, string eventType)
         {
             if (String.IsNullOrEmpty(topicId)) throw new ArgumentNullException(nameof(topicId));

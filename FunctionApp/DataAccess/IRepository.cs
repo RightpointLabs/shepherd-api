@@ -20,6 +20,8 @@ namespace FunctionApp.DataAccess
 
         Task<IEnumerable<Commitment>> GetCommitmentsByTopicId(string id);
 
+        Task<IEnumerable<Person>> GetPeople();
+
         Task<Person> GetPersonById(string id);
 
         Task<Topic> GetTopicById(string id);

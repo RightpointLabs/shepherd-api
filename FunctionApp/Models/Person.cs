@@ -8,10 +8,12 @@ namespace FunctionApp.Models
 
         public string Name { get; set; }
 
+        public Person() { }
+
         public Person(string id, string name)
         {
-            if(String.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
-            if(String.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+            if (String.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
+            if (String.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
 
             this.Id = id;
             this.Name = name;

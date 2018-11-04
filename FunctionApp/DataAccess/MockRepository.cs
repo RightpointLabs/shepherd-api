@@ -92,6 +92,11 @@ namespace FunctionApp.DataAccess
             return this.Commitments.Where(x => x.TopicId == id);
         }
 
+        public async Task<IEnumerable<Person>> GetPeople()
+        {
+            return this.People.AsEnumerable();
+        }
+
         public async Task<Person> GetPersonById(string id)
         {
             Person person = this.People.SingleOrDefault(x => x.Id == id);

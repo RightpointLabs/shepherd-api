@@ -19,11 +19,13 @@ namespace FunctionApp.Models
 
         public IEnumerable<Commitment> Commitments { get; set; }
 
+        public Topic() { }
+
         public Topic(string title, string successCriteria, string requestor)
         {
-            if(String.IsNullOrEmpty(title)) throw new ArgumentNullException(nameof(title));
-            if(String.IsNullOrEmpty(successCriteria)) throw new ArgumentNullException(nameof(successCriteria));
-            if(String.IsNullOrEmpty(requestor)) throw new ArgumentNullException(nameof(requestor));
+            if (String.IsNullOrEmpty(title)) throw new ArgumentNullException(nameof(title));
+            if (String.IsNullOrEmpty(successCriteria)) throw new ArgumentNullException(nameof(successCriteria));
+            if (String.IsNullOrEmpty(requestor)) throw new ArgumentNullException(nameof(requestor));
 
             this.Title = title;
             this.SuccessCriteria = successCriteria;

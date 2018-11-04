@@ -19,7 +19,7 @@ namespace FunctionApp.Functions
     {
         [FunctionName("PutPerson")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "people")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "put", Route = "people")] HttpRequest req,
             [Inject] IRepository repository,
             ILogger log)
         {
