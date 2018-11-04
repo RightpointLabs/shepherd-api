@@ -31,7 +31,7 @@ namespace FunctionApp.Functions
 
             try
             {
-                Commitment commitment = new Commitment(commitmentRequest.TopicId, commitmentRequest.Teacher, commitmentRequest.EventDate, commitmentRequest.EventType);
+                Commitment commitment = new Commitment(commitmentRequest.TopicId, commitmentRequest.PersonId, commitmentRequest.EventDate, commitmentRequest.EventType);
 
                 await repository.AddCommitment(commitment);
 

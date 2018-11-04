@@ -6,7 +6,7 @@ namespace FunctionApp.DataContracts
     {
         public string TopicId { get; set; }
 
-        public string Teacher { get; set; }
+        public string PersonId { get; set; }
 
         public DateTime EventDate { get; set; }
 
