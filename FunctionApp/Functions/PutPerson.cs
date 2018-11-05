@@ -7,11 +7,13 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Gremlin.Net.CosmosDb;
 using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 
 using FunctionApp.DataContracts;
 using FunctionApp.DataAccess;
 using FunctionApp.Models;
+using FunctionApp.DataAccess.GraphSchema;
 
 namespace FunctionApp.Functions
 {
@@ -20,7 +22,7 @@ namespace FunctionApp.Functions
         [FunctionName("PutPerson")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "put", Route = "people")] HttpRequest req,
-            [Inject] IRepository repository,
+            [Inject] IGraphClient graphClient,
             ILogger log)
         {
             log.LogInformation("Put Person request received");
@@ -28,11 +30,18 @@ namespace FunctionApp.Functions
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             PutPersonRequest personRequest = JsonConvert.DeserializeObject<PutPersonRequest>(requestBody);
 
-            Person person = new Person(personRequest.ExternalId, personRequest.Name);
+            PersonVertex person = new PersonVertex
+            {
+                ExternalId = personRequest.ExternalId,
+                Name = personRequest.Name
+            };
 
-            await repository.UpsertPerson(person);
+            var g = graphClient.CreateTraversalSource();
+            var query = g.AddV<PersonVertex>(person);
 
-            return new OkResult();
+            var response = await graphClient.QueryAsync<PersonVertex>(query);
+
+            return new OkObjectResult(response);
         }
     }
 }

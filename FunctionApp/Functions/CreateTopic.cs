@@ -7,11 +7,13 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Gremlin.Net.CosmosDb;
 using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 
 using FunctionApp.DataContracts;
 using FunctionApp.DataAccess;
 using FunctionApp.Models;
+using FunctionApp.DataAccess.GraphSchema;
 
 namespace FunctionApp.Functions
 {
@@ -20,7 +22,7 @@ namespace FunctionApp.Functions
         [FunctionName("CreateTopic")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = "topics")] HttpRequest req,
-            [Inject] IRepository repository,
+            [Inject] IGraphClient graphClient,
             ILogger log)
         {
             log.LogInformation("Create Topic request received");
@@ -28,11 +30,28 @@ namespace FunctionApp.Functions
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             CreateTopicRequest topicRequest = JsonConvert.DeserializeObject<CreateTopicRequest>(requestBody);
 
-            Topic topic = new Topic(topicRequest.Title, topicRequest.SuccessCriteria, topicRequest.PersonId);
+            // save to DB
+            var topicVertex = new TopicVertex
+            {
+                Title = topicRequest.Title,
+                SuccessCriteria = topicRequest.SuccessCriteria
+            };
+            var requestEdge = new RequestEdge
+            {
+                RequestedDate = DateTime.UtcNow
+            };
 
-            Topic topicResult = await repository.AddTopic(topic);
+            var g = graphClient.CreateTraversalSource();
+            var query = g
+                .V<PersonVertex>(topicRequest.PersonId)
+                .AddE<RequestEdge>(requestEdge)
+                .To(g.AddV<TopicVertex>(topicVertex));
 
-            return new OkObjectResult(topicResult);
+            log.LogInformation($"Query: {query.ToGremlinQuery()}");
+
+            await graphClient.QueryAsync(query);
+
+            return new OkResult();
         }
     }
 }

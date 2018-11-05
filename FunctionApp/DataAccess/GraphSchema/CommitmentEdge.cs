@@ -3,7 +3,7 @@ using Gremlin.Net.CosmosDb.Structure;
 
 namespace FunctionApp.DataAccess.GraphSchema
 {
-    [Label("commitment")]
+    [Label("committedTo")]
     public class CommitmentEdge : EdgeBase
     {
         public DateTime CommittedDate { get; set; }
