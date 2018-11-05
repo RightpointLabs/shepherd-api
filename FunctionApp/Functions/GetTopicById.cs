@@ -13,6 +13,7 @@ using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 using FunctionApp.DataContracts;
 using FunctionApp.DataAccess;
 using FunctionApp.DataAccess.GraphSchema;
+using System.Linq;
 
 namespace FunctionApp.Functions
 {
@@ -32,9 +33,9 @@ namespace FunctionApp.Functions
 
             log.LogInformation($"Query: {query.ToGremlinQuery()}");
 
-            var result = await graphClient.QueryAsync<TopicVertex>(query);
+            TopicVertex topic = (await graphClient.QueryAsync<TopicVertex>(query)).Single();
 
-            return new OkObjectResult(result);
+            return new OkObjectResult(topic);
         }
     }
 }

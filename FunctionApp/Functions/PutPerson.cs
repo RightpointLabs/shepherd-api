@@ -13,6 +13,7 @@ using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 using FunctionApp.DataContracts;
 using FunctionApp.DataAccess;
 using FunctionApp.DataAccess.GraphSchema;
+using System.Linq;
 
 namespace FunctionApp.Functions
 {
@@ -42,9 +43,9 @@ namespace FunctionApp.Functions
                 .Fold()
                 .Coalesce<PersonVertex>(g.V().Unfold<PersonVertex>(), g.AddV<PersonVertex>(person));
 
-            var response = await graphClient.QueryAsync<PersonVertex>(query);
+            PersonVertex personResult = (await graphClient.QueryAsync<PersonVertex>(query)).Single();
 
-            return new OkObjectResult(response);
+            return new OkObjectResult(personResult);
         }
     }
 }

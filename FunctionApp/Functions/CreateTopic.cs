@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -48,9 +49,9 @@ namespace FunctionApp.Functions
 
             log.LogInformation($"Query: {query.ToGremlinQuery()}");
 
-            await graphClient.QueryAsync(query);
+            TopicVertex topic = (await graphClient.QueryAsync<TopicVertex>(query)).SingleOrDefault();
 
-            return new OkResult();
+            return new OkObjectResult(topic);
         }
     }
 }
