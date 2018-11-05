@@ -36,7 +36,11 @@ namespace FunctionApp.Functions
             };
 
             var g = graphClient.CreateTraversalSource();
-            var query = g.AddV<PersonVertex>(person);
+            var query = g
+                .V<PersonVertex>()
+                .Has(x => x.ExternalId, person.ExternalId)
+                .Fold()
+                .Coalesce<PersonVertex>(g.V().Unfold<PersonVertex>(), g.AddV<PersonVertex>(person));
 
             var response = await graphClient.QueryAsync<PersonVertex>(query);
 
