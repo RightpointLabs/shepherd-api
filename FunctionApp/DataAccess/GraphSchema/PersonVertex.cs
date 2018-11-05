@@ -1,4 +1,3 @@
-using FunctionApp.Models;
 using Gremlin.Net.CosmosDb.Structure;
 
 namespace FunctionApp.DataAccess.GraphSchema

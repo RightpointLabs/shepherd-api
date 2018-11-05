@@ -1,5 +1,3 @@
-using System;
-using FunctionApp.Models;
 using Gremlin.Net.CosmosDb.Structure;
 
 namespace FunctionApp.DataAccess.GraphSchema
@@ -11,6 +9,6 @@ namespace FunctionApp.DataAccess.GraphSchema
 
         public string SuccessCriteria { get; set; }
 
-        RequestEdge Requested { get; }
+        public RequestEdge Requested { get; }
     }
 }

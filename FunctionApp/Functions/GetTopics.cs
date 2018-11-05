@@ -12,7 +12,6 @@ using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 
 using FunctionApp.DataContracts;
 using FunctionApp.DataAccess;
-using FunctionApp.Models;
 using FunctionApp.DataAccess.GraphSchema;
 
 namespace FunctionApp.Functions
@@ -22,12 +21,19 @@ namespace FunctionApp.Functions
         [FunctionName("GetTopics")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "topics")] HttpRequest req,
-            [Inject] IRepository repository,
+            [Inject] IGraphClient graphClient,
             ILogger log)
         {
             log.LogInformation("Getting all Topics.");
 
-            return new OkObjectResult(await repository.GetTopics());
+            var g = graphClient.CreateTraversalSource();
+            var query = g.V<TopicVertex>();
+
+            log.LogInformation($"Query: {query.ToGremlinQuery()}");
+
+            var result = await graphClient.QueryAsync<TopicVertex>(query);
+
+            return new OkObjectResult(result);
         }
     }
 }

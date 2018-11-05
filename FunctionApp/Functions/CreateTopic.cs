@@ -12,7 +12,6 @@ using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 
 using FunctionApp.DataContracts;
 using FunctionApp.DataAccess;
-using FunctionApp.Models;
 using FunctionApp.DataAccess.GraphSchema;
 
 namespace FunctionApp.Functions

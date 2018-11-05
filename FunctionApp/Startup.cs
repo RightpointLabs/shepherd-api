@@ -18,9 +18,6 @@ namespace FunctionApp
         {
             IGraphClient graphClient = new GraphClient("shepherd-local.gremlin.cosmosdb.azure.com", "shepherd", "shepherd", "rjfqIQKhqBcpMarT0alwQJdpgVQopBDzZi1IZpso2v1z0A3fTEKyUOIZPdaQ10XnoKNFpLgrpmw4wlHsdFb76A==");
             services.AddSingleton(graphClient);
-
-            // IRepository repository = new AzureCosmosGraphRepository("shepherd-local.gremlin.cosmosdb.azure.com", "shepherd", "shepherd", "rjfqIQKhqBcpMarT0alwQJdpgVQopBDzZi1IZpso2v1z0A3fTEKyUOIZPdaQ10XnoKNFpLgrpmw4wlHsdFb76A==");
-            // services.AddSingleton(repository);
         }
     }
 }

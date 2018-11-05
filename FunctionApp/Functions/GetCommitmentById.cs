@@ -12,7 +12,6 @@ using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 
 using FunctionApp.DataContracts;
 using FunctionApp.DataAccess;
-using FunctionApp.Models;
 using FunctionApp.DataAccess.GraphSchema;
 
 namespace FunctionApp.Functions
@@ -23,21 +22,19 @@ namespace FunctionApp.Functions
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "commitments/{id}")] HttpRequest req,
             string id,
-            [Inject] IRepository repository,
+            [Inject] IGraphClient graphClient,
             ILogger log)
         {
             log.LogInformation($"Getting Commitment by ID: {id}");
 
-            try
-            {
-                Commitment commitment = await repository.GetCommitmentById(id);
+            var g = graphClient.CreateTraversalSource();
+            var query = g.V<CommitmentEdge>(id);
 
-                return new OkObjectResult(commitment);
-            }
-            catch (ObjectNotFoundException e)
-            {
-                return new NotFoundResult();
-            }
+            log.LogInformation($"Query: {query.ToGremlinQuery()}");
+
+            var result = await graphClient.QueryAsync<CommitmentEdge>(query);
+
+            return new OkObjectResult(result);
         }
     }
 }
