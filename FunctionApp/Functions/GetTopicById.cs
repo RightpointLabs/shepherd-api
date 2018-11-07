@@ -33,9 +33,9 @@ namespace FunctionApp.Functions
 
             log.LogInformation($"Query: {query.ToGremlinQuery()}");
 
-            TopicVertex topic = (await graphClient.QueryAsync<TopicVertex>(query)).Single();
+            TopicVertex topicResult = (await graphClient.QueryAsync<TopicVertex>(query)).Single();
 
-            return new OkObjectResult(topic);
+            return new OkObjectResult(topicResult);
         }
     }
 }

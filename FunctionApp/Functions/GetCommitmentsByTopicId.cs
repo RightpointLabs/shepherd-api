@@ -35,9 +35,9 @@ namespace FunctionApp.Functions
 
             log.LogInformation($"Query: {query.ToGremlinQuery()}");
 
-            IEnumerable<CommitmentEdge> commitments = await graphClient.QueryAsync<CommitmentEdge>(query);
+            IEnumerable<CommitmentEdge> commitmentResults = await graphClient.QueryAsync<CommitmentEdge>(query);
 
-            return new OkObjectResult(commitments);
+            return new OkObjectResult(commitmentResults);
         }
     }
 }

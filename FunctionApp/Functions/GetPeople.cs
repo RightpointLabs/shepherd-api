@@ -32,9 +32,9 @@ namespace FunctionApp.Functions
 
             log.LogInformation($"Query: {query.ToGremlinQuery()}");
 
-            IEnumerable<PersonVertex> people = await graphClient.QueryAsync<PersonVertex>(query);
+            IEnumerable<PersonVertex> peopleResults = await graphClient.QueryAsync<PersonVertex>(query);
 
-            return new OkObjectResult(people);
+            return new OkObjectResult(peopleResults);
         }
     }
 }
