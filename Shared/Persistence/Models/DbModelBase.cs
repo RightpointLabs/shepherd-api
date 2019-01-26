@@ -1,6 +1,6 @@
 using System;
 
-namespace FunctionApp.Persistence.Models
+namespace Shared.Persistence.Models
 {
     public abstract class DbModelBase
     {

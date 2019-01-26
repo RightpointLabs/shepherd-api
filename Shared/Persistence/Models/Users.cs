@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace FunctionApp.Persistence.Models
+namespace Shared.Persistence.Models
 {
     public class User : DbModelBase
     {

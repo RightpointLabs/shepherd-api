@@ -1,7 +1,7 @@
-using FunctionApp.Persistence.Models;
+using Shared.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace FunctionApp.Persistence
+namespace Shared.Persistence
 {
     public class ShepherdContext : DbContext
     {
