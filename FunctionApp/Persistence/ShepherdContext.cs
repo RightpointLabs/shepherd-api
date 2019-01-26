@@ -5,6 +5,8 @@ namespace FunctionApp.Persistence
 {
     public class ShepherdContext : DbContext
     {
+        public ShepherdContext(DbContextOptions<ShepherdContext> options) : base(options) { }
+
         public DbSet<Commitment> Commitments { get; set; }
         public DbSet<CommitmentType> CommitmentTypes { get; set; }
         public DbSet<Topic> Topics { get; set; }
@@ -21,15 +23,15 @@ namespace FunctionApp.Persistence
         private static void ConfigureModelBase<T>(ModelBuilder modelBuilder) where T : DbModelBase
         {
             modelBuilder.Entity<T>()
-                .Property(b => b.Id)
+                .Property(x => x.Id)
                 .IsRequired();
 
             modelBuilder.Entity<T>()
-                .Property(b => b.CreatedDate)
+                .Property(x => x.CreatedDate)
                 .IsRequired();
 
             modelBuilder.Entity<T>()
-                .Property(b => b.UpdatedDate)
+                .Property(x => x.UpdatedDate)
                 .IsRequired();
         }
 
@@ -38,15 +40,20 @@ namespace FunctionApp.Persistence
             ConfigureModelBase<Commitment>(modelBuilder);
 
             modelBuilder.Entity<Commitment>()
-                .Property(b => b.UserId)
+                .Property(x => x.UserId)
                 .IsRequired();
 
             modelBuilder.Entity<Commitment>()
-                .Property(b => b.TypeId)
+                .Property(x => x.TypeId)
                 .IsRequired();
 
             modelBuilder.Entity<Commitment>()
-                .Property(b => b.Date)
+                .Property(x => x.Date)
+                .IsRequired();
+
+            modelBuilder.Entity<Commitment>()
+                .HasOne(x => x.Type)
+                .WithMany(x => x.Commitments)
                 .IsRequired();
         }
 
@@ -55,7 +62,7 @@ namespace FunctionApp.Persistence
             ConfigureModelBase<CommitmentType>(modelBuilder);
 
             modelBuilder.Entity<CommitmentType>()
-                .Property(b => b.Name)
+                .Property(x => x.Name)
                 .HasMaxLength(50)
                 .IsRequired();
         }
@@ -65,17 +72,22 @@ namespace FunctionApp.Persistence
             ConfigureModelBase<Topic>(modelBuilder);
 
             modelBuilder.Entity<Topic>()
-                .Property(b => b.Name)
+                .Property(x => x.Name)
                 .HasMaxLength(200)
                 .IsRequired();
 
             modelBuilder.Entity<Topic>()
-                .Property(b => b.AcceptanceCriteria)
+                .Property(x => x.AcceptanceCriteria)
                 .HasMaxLength(1000)
                 .IsRequired();
 
             modelBuilder.Entity<Topic>()
-                .Property(b => b.UserId)
+                .Property(x => x.RequestorId)
+                .IsRequired();
+
+            modelBuilder.Entity<Topic>()
+                .HasOne(x => x.Requestor)
+                .WithMany(x => x.Topics)
                 .IsRequired();
         }
 
@@ -84,14 +96,18 @@ namespace FunctionApp.Persistence
             ConfigureModelBase<User>(modelBuilder);
 
             modelBuilder.Entity<User>()
-                .Property(b => b.Name)
+                .Property(x => x.Name)
                 .HasMaxLength(100)
                 .IsRequired();
 
             modelBuilder.Entity<User>()
-                .Property(b => b.TenantId)
+                .Property(x => x.TenantId)
                 .HasMaxLength(100)
                 .IsRequired();
+
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.Commitments)
+                .WithOne(x => x.User);
         }
     }
 }
