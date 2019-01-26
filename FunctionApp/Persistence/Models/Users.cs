@@ -1,4 +1,4 @@
-namespace FunctionApp.Models
+namespace FunctionApp.Persistence.Models
 {
     public class User : DbModelBase
     {

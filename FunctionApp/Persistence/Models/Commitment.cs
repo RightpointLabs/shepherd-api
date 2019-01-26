@@ -1,6 +1,6 @@
 using System;
 
-namespace FunctionApp.Models
+namespace FunctionApp.Persistence.Models
 {
     public class Commitment : DbModelBase
     {
