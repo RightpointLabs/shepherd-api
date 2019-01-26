@@ -9,9 +9,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 
-using FunctionApp.DataContracts;
 using System.Collections.Generic;
-using FunctionApp.Models;
 using System.Linq;
 
 namespace FunctionApp.Functions
@@ -26,9 +24,9 @@ namespace FunctionApp.Functions
         {
             log.LogInformation("Getting all People");
 
-            IEnumerable<User> users = new List<User>().AsEnumerable();
+            var people = new List<Contracts.Models.Person>().AsEnumerable();
 
-            return new OkObjectResult(users);
+            return new OkObjectResult(people);
         }
     }
 }

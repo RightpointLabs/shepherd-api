@@ -9,10 +9,8 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 
-using FunctionApp.DataContracts;
-using System.Linq;
 using System.Collections.Generic;
-using FunctionApp.Models;
+using System.Linq;
 
 namespace FunctionApp.Functions
 {
@@ -27,7 +25,7 @@ namespace FunctionApp.Functions
         {
             log.LogInformation($"Getting Topic by ID: {id}");
 
-            Topic topic = new Topic();
+            var topic = new Contracts.Models.Topic();
 
             return new OkObjectResult(topic);
         }

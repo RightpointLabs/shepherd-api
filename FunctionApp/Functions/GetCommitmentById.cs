@@ -10,10 +10,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 
-using FunctionApp.DataContracts;
-using System.Collections.Generic;
-using FunctionApp.Models;
-
 namespace FunctionApp.Functions
 {
     public static class GetCommitmentById
@@ -27,7 +23,7 @@ namespace FunctionApp.Functions
         {
             log.LogInformation($"Getting Commitment by ID: {id}");
 
-            Commitment commitment = new Commitment();
+            var commitment = new Contracts.Models.Commitment();
 
             return new OkObjectResult(commitment);
         }

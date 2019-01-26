@@ -10,9 +10,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 
-using FunctionApp.DataContracts;
-using FunctionApp.Models;
-
 namespace FunctionApp.Functions
 {
     public static class CreateCommitment
@@ -26,10 +23,10 @@ namespace FunctionApp.Functions
         {
             log.LogInformation("Create Commitment request received");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            CreateCommitmentRequest commitmentRequest = JsonConvert.DeserializeObject<CreateCommitmentRequest>(requestBody);
+            var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            var commitmentRequest = JsonConvert.DeserializeObject<Contracts.CreateCommitmentRequest>(requestBody);
 
-            Commitment commitment = new Commitment();
+            var commitment = new Contracts.Models.Commitment();
 
             return new OkObjectResult(commitment);
         }

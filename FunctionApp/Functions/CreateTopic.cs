@@ -10,9 +10,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 
-using FunctionApp.DataContracts;
-using FunctionApp.Models;
-
 namespace FunctionApp.Functions
 {
     public static class CreateTopic
@@ -25,10 +22,10 @@ namespace FunctionApp.Functions
         {
             log.LogInformation("Create Topic request received");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            CreateTopicRequest topicRequest = JsonConvert.DeserializeObject<CreateTopicRequest>(requestBody);
+            var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            var topicRequest = JsonConvert.DeserializeObject<Contracts.CreateTopicRequest>(requestBody);
 
-            Topic topic = new Topic();
+            var topic = new Contracts.Models.Topic();
 
             return new OkObjectResult(topic);
         }

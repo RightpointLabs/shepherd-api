@@ -9,10 +9,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 
-using FunctionApp.DataContracts;
-using System.Linq;
-using FunctionApp.Models;
-
 namespace FunctionApp.Functions
 {
     public static class GetPersonById
@@ -26,9 +22,9 @@ namespace FunctionApp.Functions
         {
             log.LogInformation($"Getting Person by ID: {id}");
 
-            User user = new User();
+            var person = new Contracts.Models.Person();
 
-            return new OkObjectResult(user);
+            return new OkObjectResult(person);
         }
     }
 }
