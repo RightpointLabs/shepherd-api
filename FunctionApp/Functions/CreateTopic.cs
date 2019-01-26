@@ -8,12 +8,10 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Gremlin.Net.CosmosDb;
 using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 
 using FunctionApp.DataContracts;
-using FunctionApp.DataAccess;
-using FunctionApp.DataAccess.GraphSchema;
+using FunctionApp.Models;
 
 namespace FunctionApp.Functions
 {
@@ -22,7 +20,7 @@ namespace FunctionApp.Functions
         [FunctionName("CreateTopic")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = "topics")] HttpRequest req,
-            [Inject] IGraphClient graphClient,
+            // [Inject] IGraphClient graphClient,
             ILogger log)
         {
             log.LogInformation("Create Topic request received");
@@ -30,28 +28,9 @@ namespace FunctionApp.Functions
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             CreateTopicRequest topicRequest = JsonConvert.DeserializeObject<CreateTopicRequest>(requestBody);
 
-            // save to DB
-            var topicVertex = new TopicVertex
-            {
-                Title = topicRequest.Title,
-                SuccessCriteria = topicRequest.SuccessCriteria
-            };
-            var requestEdge = new RequestEdge
-            {
-                RequestedDate = DateTime.UtcNow
-            };
+            Topic topic = new Topic();
 
-            var g = graphClient.CreateTraversalSource();
-            var query = g
-                .V<PersonVertex>(topicRequest.PersonId)
-                .AddE<RequestEdge>(requestEdge)
-                .To(g.AddV<TopicVertex>(topicVertex));
-
-            log.LogInformation($"Query: {query.ToGremlinQuery()}");
-
-            TopicVertex topicResult = (await graphClient.QueryAsync<TopicVertex>(query)).SingleOrDefault();
-
-            return new OkObjectResult(topicResult);
+            return new OkObjectResult(topic);
         }
     }
 }

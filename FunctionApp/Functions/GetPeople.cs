@@ -7,13 +7,12 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Gremlin.Net.CosmosDb;
 using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 
 using FunctionApp.DataContracts;
-using FunctionApp.DataAccess;
-using FunctionApp.DataAccess.GraphSchema;
 using System.Collections.Generic;
+using FunctionApp.Models;
+using System.Linq;
 
 namespace FunctionApp.Functions
 {
@@ -22,19 +21,14 @@ namespace FunctionApp.Functions
         [FunctionName("GetPeople")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "people")] HttpRequest req,
-            [Inject] IGraphClient graphClient,
+            // [Inject] IGraphClient graphClient,
             ILogger log)
         {
             log.LogInformation("Getting all People");
 
-            var g = graphClient.CreateTraversalSource();
-            var query = g.V<PersonVertex>();
+            IEnumerable<User> users = new List<User>().AsEnumerable();
 
-            log.LogInformation($"Query: {query.ToGremlinQuery()}");
-
-            IEnumerable<PersonVertex> peopleResults = await graphClient.QueryAsync<PersonVertex>(query);
-
-            return new OkObjectResult(peopleResults);
+            return new OkObjectResult(users);
         }
     }
 }
