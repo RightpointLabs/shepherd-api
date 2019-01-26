@@ -16,10 +16,11 @@ namespace FunctionApp.Functions
         [FunctionName("GetCommitmentsByTopicId")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "topics/{id}/commitments")] HttpRequest req,
-            string id,
-            ILogger log)
+            string id
+            // ILogger log
+            )
         {
-            log.LogInformation($"Getting all Commitments for Topic: {id}");
+            // log.LogInformation($"Getting all Commitments for Topic: {id}");
 
             var commitments = new List<Contracts.Models.Commitment>().AsEnumerable();
 

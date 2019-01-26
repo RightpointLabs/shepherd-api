@@ -16,11 +16,11 @@ namespace FunctionApp.Functions
         [FunctionName("GetCommitmentById")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "commitments/{id}")] HttpRequest req,
-            string id,
-            // [Inject] IGraphClient graphClient,
-            ILogger log)
+            string id
+            // ILogger logF
+            )
         {
-            log.LogInformation($"Getting Commitment by ID: {id}");
+            // log.LogInformation($"Getting Commitment by ID: {id}");
 
             var commitment = new Contracts.Models.Commitment();
 

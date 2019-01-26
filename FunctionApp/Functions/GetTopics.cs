@@ -15,10 +15,11 @@ namespace FunctionApp.Functions
     {
         [FunctionName("GetTopics")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "topics")] HttpRequest req,
-            ILogger log)
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "topics")] HttpRequest req
+            // ILogger log
+            )
         {
-            log.LogInformation("Getting all Topics.");
+            // log.LogInformation("Getting all Topics.");
 
             var topics = new List<Contracts.Models.Topic>().AsEnumerable();
 

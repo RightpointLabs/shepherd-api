@@ -16,10 +16,11 @@ namespace FunctionApp.Functions
     {
         [FunctionName("CreateTopic")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "topics")] HttpRequest req,
-            ILogger log)
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "topics")] HttpRequest req
+            // ILogger log
+            )
         {
-            log.LogInformation("Create Topic request received");
+            // log.LogInformation("Create Topic request received");
 
             var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var topicRequest = JsonConvert.DeserializeObject<Contracts.CreateTopicRequest>(requestBody);

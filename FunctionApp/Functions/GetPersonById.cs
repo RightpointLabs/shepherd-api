@@ -16,10 +16,11 @@ namespace FunctionApp.Functions
         [FunctionName("GetPersonById")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "people/{id}")] HttpRequest req,
-            string id,
-            ILogger log)
+            string id
+            // ILogger log
+            )
         {
-            log.LogInformation($"Getting Person by ID: {id}");
+            // log.LogInformation($"Getting Person by ID: {id}");
 
             var person = new Contracts.Models.Person();
 
