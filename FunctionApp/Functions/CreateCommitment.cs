@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +9,6 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 
 namespace FunctionApp.Functions
 {
@@ -18,7 +18,6 @@ namespace FunctionApp.Functions
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = "topics/{id}/commitments")] HttpRequest req,
             string id,
-            // [Inject] IGraphClient graphClient,
             ILogger log)
         {
             log.LogInformation("Create Commitment request received");

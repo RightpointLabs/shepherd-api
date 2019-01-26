@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +9,6 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 
 namespace FunctionApp.Functions
 {
@@ -17,7 +17,6 @@ namespace FunctionApp.Functions
         [FunctionName("CreateTopic")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = "topics")] HttpRequest req,
-            // [Inject] IGraphClient graphClient,
             ILogger log)
         {
             log.LogInformation("Create Topic request received");
