@@ -4,8 +4,9 @@
     <AzureFunctionsVersion>V2</AzureFunctionsVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.*" />
-    <PackageReference Include="Willezone.Azure.WebJobs.Extensions.DependencyInjection" Version="1.0.1" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.*"/>
+    <PackageReference Include="Willezone.Azure.WebJobs.Extensions.DependencyInjection" Version="1.0.1"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.1"/>
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
