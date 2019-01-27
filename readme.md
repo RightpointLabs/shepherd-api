@@ -1,7 +1,7 @@
 # Shepherd API
 
 ## Technology
-This is an Azure Function project that serves as an API to an Azure Cosmos DB instance.
+This is an Azure Function project that serves as an API backed by SQL.
 
 ## Setup
 - Install Node v10.13.x [https://nodejs.org](https://nodejs.org)
