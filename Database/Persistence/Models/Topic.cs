@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Shared.Persistence.Models
+namespace FunctionApp.Persistence.Models
 {
     public class Topic : DbModelBase
     {

@@ -1,30 +1,20 @@
 using System;
-using System.IO;
 using System.Linq;
-using Shared.Persistence.Models;
+using FunctionApp.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.Extensions.Configuration;
 
-namespace Database
+namespace Database.Persistence
 {
     public class ShepherdContext : DbContext
     {
+        public ShepherdContext(DbContextOptions<ShepherdContext> options) : base(options) { }
+
         public DbSet<Commitment> Commitments { get; set; }
         public DbSet<CommitmentType> CommitmentTypes { get; set; }
         public DbSet<Topic> Topics { get; set; }
         public DbSet<User> Users { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json");
-
-            var configuration = builder.Build();
-
-            optionsBuilder.UseSqlServer(configuration["connectionString"]);
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

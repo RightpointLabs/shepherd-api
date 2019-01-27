@@ -23,10 +23,10 @@ namespace FunctionApp.Functions
         {
             log.LogInformation("Getting all Commitments");
 
-            var optionsBuilder = new DbContextOptionsBuilder<Shared.Persistence.ShepherdContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<Database.Persistence.ShepherdContext>();
             optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("ConnectionString"));
 
-            using (var context = new Shared.Persistence.ShepherdContext(optionsBuilder.Options))
+            using (var context = new Database.Persistence.ShepherdContext(optionsBuilder.Options))
             {
                 var commitments = await context.Commitments.ToListAsync();
 
