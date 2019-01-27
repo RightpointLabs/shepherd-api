@@ -24,10 +24,10 @@ namespace FunctionApp.Functions
         {
             log.LogInformation($"Getting Person by ID: {id}");
 
-            var optionsBuilder = new DbContextOptionsBuilder<Persistence.ShepherdContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<Database.Persistence.ShepherdContext>();
             optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("ConnectionString"));
 
-            using (var context = new Persistence.ShepherdContext(optionsBuilder.Options))
+            using (var context = new Database.Persistence.ShepherdContext(optionsBuilder.Options))
             {
                 var person = await context.Users.FindAsync(new Guid(id));
 

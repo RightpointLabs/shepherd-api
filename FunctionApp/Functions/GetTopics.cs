@@ -23,10 +23,10 @@ namespace FunctionApp.Functions
         {
             log.LogInformation("Getting all Topics.");
 
-            var optionsBuilder = new DbContextOptionsBuilder<Persistence.ShepherdContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<Database.Persistence.ShepherdContext>();
             optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("ConnectionString"));
 
-            using (var context = new Persistence.ShepherdContext(optionsBuilder.Options))
+            using (var context = new Database.Persistence.ShepherdContext(optionsBuilder.Options))
             {
                 var topics = await context.Topics.ToListAsync();
 
