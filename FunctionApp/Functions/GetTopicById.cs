@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace FunctionApp.Functions
 {
     public static class GetTopicById
@@ -22,9 +24,15 @@ namespace FunctionApp.Functions
         {
             log.LogInformation($"Getting Topic by ID: {id}");
 
-            var topic = new Contracts.Models.Topic();
+            var optionsBuilder = new DbContextOptionsBuilder<Shared.Persistence.ShepherdContext>();
+            optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("ConnectionString"));
 
-            return new OkObjectResult(topic);
+            using (var context = new Shared.Persistence.ShepherdContext(optionsBuilder.Options))
+            {
+                var topic = await context.Topics.FindAsync(id);
+
+                return new OkObjectResult(topic);
+            }
         }
     }
 }

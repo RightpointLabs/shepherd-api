@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace FunctionApp.Functions
 {
     public static class GetCommitments
@@ -21,9 +23,15 @@ namespace FunctionApp.Functions
         {
             log.LogInformation("Getting all Commitments");
 
-            var commitments = new List<Contracts.Models.Commitment>().AsEnumerable();
+            var optionsBuilder = new DbContextOptionsBuilder<Shared.Persistence.ShepherdContext>();
+            optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("ConnectionString"));
 
-            return new OkObjectResult(commitments);
+            using (var context = new Shared.Persistence.ShepherdContext(optionsBuilder.Options))
+            {
+                var commitments = await context.Commitments.ToListAsync();
+
+                return new OkObjectResult(commitments);
+            }
         }
     }
 }

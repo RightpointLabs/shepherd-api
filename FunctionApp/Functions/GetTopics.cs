@@ -9,21 +9,29 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace FunctionApp.Functions
 {
     public static class GetTopics
     {
         [FunctionName("GetTopics")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "topics")] HttpRequest req
-            // ILogger log
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "topics")] HttpRequest req,
+            ILogger log
             )
         {
-            // log.LogInformation("Getting all Topics.");
+            log.LogInformation("Getting all Topics.");
 
-            var topics = new List<Contracts.Models.Topic>().AsEnumerable();
+            var optionsBuilder = new DbContextOptionsBuilder<Shared.Persistence.ShepherdContext>();
+            optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("ConnectionString"));
 
-            return new OkObjectResult(topics);
+            using (var context = new Shared.Persistence.ShepherdContext(optionsBuilder.Options))
+            {
+                var topics = await context.Topics.ToListAsync();
+
+                return new OkObjectResult(topics);
+            }
         }
     }
 }

@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace FunctionApp.Functions
 {
     public static class GetCommitmentsByTopicId
@@ -22,9 +24,19 @@ namespace FunctionApp.Functions
         {
             log.LogInformation($"Getting all Commitments for Topic: {id}");
 
-            var commitments = new List<Contracts.Models.Commitment>().AsEnumerable();
+            var optionsBuilder = new DbContextOptionsBuilder<Shared.Persistence.ShepherdContext>();
+            optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("ConnectionString"));
 
-            return new OkObjectResult(commitments);
+            using (var context = new Shared.Persistence.ShepherdContext(optionsBuilder.Options))
+            {
+                var topic = await context.Topics.Include(x => x.Commitments).SingleOrDefaultAsync(x => x.Id == new Guid(id));
+
+                if(topic == null) return new NotFoundResult();
+
+                var commitments = topic.Commitments.ToList();
+
+                return new OkObjectResult(commitments);
+            }
         }
     }
 }

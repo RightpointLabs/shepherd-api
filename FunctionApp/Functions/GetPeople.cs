@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace FunctionApp.Functions
 {
     public static class GetPeople
@@ -21,9 +23,15 @@ namespace FunctionApp.Functions
         {
             log.LogInformation("Getting all People");
 
-            var people = new List<Contracts.Models.Person>().AsEnumerable();
+            var optionsBuilder = new DbContextOptionsBuilder<Shared.Persistence.ShepherdContext>();
+            optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("ConnectionString"));
 
-            return new OkObjectResult(people);
+            using (var context = new Shared.Persistence.ShepherdContext(optionsBuilder.Options))
+            {
+                var people = await context.Users.ToListAsync();
+
+                return new OkObjectResult(people);
+            }
         }
     }
 }
