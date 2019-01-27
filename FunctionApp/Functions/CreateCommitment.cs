@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,12 +9,6 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Gremlin.Net.CosmosDb;
-using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
-
-using FunctionApp.DataContracts;
-using FunctionApp.DataAccess;
-using FunctionApp.DataAccess.GraphSchema;
 
 namespace FunctionApp.Functions
 {
@@ -23,33 +18,19 @@ namespace FunctionApp.Functions
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = "topics/{id}/commitments")] HttpRequest req,
             string id,
-            [Inject] IGraphClient graphClient,
-            ILogger log)
+            ILogger log
+            )
         {
             log.LogInformation("Create Commitment request received");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            CreateCommitmentRequest commitmentRequest = JsonConvert.DeserializeObject<CreateCommitmentRequest>(requestBody);
+            var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            var commitmentRequest = JsonConvert.DeserializeObject<Contracts.CreateCommitmentRequest>(requestBody);
 
-            // save to DB
-            var commitmentEdge = new CommitmentEdge
-            {
-                CommittedDate = DateTime.UtcNow,
-                EventDate = commitmentRequest.EventDate,
-                EventType = commitmentRequest.EventType
-            };
+            throw new NotImplementedException();
 
-            var g = graphClient.CreateTraversalSource();
-            var query = g
-                .V<PersonVertex>(commitmentRequest.PersonId)
-                .AddE<CommitmentEdge>(commitmentEdge)
-                .To(g.V<TopicVertex>(id));
+            var commitment = new Contracts.Models.Commitment();
 
-            log.LogInformation($"Query: {query.ToGremlinQuery()}");
-
-            CommitmentEdge commitmentResult = (await graphClient.QueryAsync<CommitmentEdge>(query)).Single();
-
-            return new OkObjectResult(commitmentResult);
+            return new OkObjectResult(commitment);
         }
     }
 }

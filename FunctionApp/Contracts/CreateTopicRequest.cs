@@ -1,4 +1,4 @@
-namespace FunctionApp.DataContracts
+namespace FunctionApp.Contracts
 {
     public class CreateTopicRequest
     {

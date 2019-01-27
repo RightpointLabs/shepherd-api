@@ -1,0 +1,3 @@
+{
+    "connectionString": "Server=tcp:shepherddev.database.windows.net,1433;Initial Catalog=shepherd;Persist Security Info=False;User ID=XXXXXXXXXX;Password=XXXXXXXXXX;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+}

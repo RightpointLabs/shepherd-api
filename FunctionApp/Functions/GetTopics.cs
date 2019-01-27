@@ -1,5 +1,6 @@
 using System;
-using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -7,13 +8,8 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Gremlin.Net.CosmosDb;
-using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 
-using FunctionApp.DataContracts;
-using FunctionApp.DataAccess;
-using FunctionApp.DataAccess.GraphSchema;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace FunctionApp.Functions
 {
@@ -22,19 +18,20 @@ namespace FunctionApp.Functions
         [FunctionName("GetTopics")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "topics")] HttpRequest req,
-            [Inject] IGraphClient graphClient,
-            ILogger log)
+            ILogger log
+            )
         {
             log.LogInformation("Getting all Topics.");
 
-            var g = graphClient.CreateTraversalSource();
-            var query = g.V<TopicVertex>();
+            var optionsBuilder = new DbContextOptionsBuilder<Shared.Persistence.ShepherdContext>();
+            optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("ConnectionString"));
 
-            log.LogInformation($"Query: {query.ToGremlinQuery()}");
+            using (var context = new Shared.Persistence.ShepherdContext(optionsBuilder.Options))
+            {
+                var topics = await context.Topics.ToListAsync();
 
-            IEnumerable<TopicVertex> topicResults = await graphClient.QueryAsync<TopicVertex>(query);
-
-            return new OkObjectResult(topicResults);
+                return new OkObjectResult(topics);
+            }
         }
     }
 }
