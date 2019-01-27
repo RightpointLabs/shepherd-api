@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.Extensions.Configuration;
 
-namespace FunctionApp.Persistence
+namespace Database.Persistence
 {
     public class ShepherdContext : DbContext
     {
