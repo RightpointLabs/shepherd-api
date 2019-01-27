@@ -25,6 +25,8 @@ namespace FunctionApp.Functions
             var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var topicRequest = JsonConvert.DeserializeObject<Contracts.CreateTopicRequest>(requestBody);
 
+            throw new NotImplementedException();
+
             var topic = new Contracts.Models.Topic();
 
             return new OkObjectResult(topic);

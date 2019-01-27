@@ -26,6 +26,8 @@ namespace FunctionApp.Functions
             var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var commitmentRequest = JsonConvert.DeserializeObject<Contracts.CreateCommitmentRequest>(requestBody);
 
+            throw new NotImplementedException();
+
             var commitment = new Contracts.Models.Commitment();
 
             return new OkObjectResult(commitment);
