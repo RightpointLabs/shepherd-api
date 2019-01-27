@@ -29,7 +29,7 @@ namespace FunctionApp.Functions
 
             using (var context = new Shared.Persistence.ShepherdContext(optionsBuilder.Options))
             {
-                var person = await context.Users.FindAsync(id);
+                var person = await context.Users.FindAsync(new Guid(id));
 
                 return new OkObjectResult(person);
             }
