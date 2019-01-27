@@ -16,11 +16,11 @@ namespace FunctionApp.Functions
         [FunctionName("GetTopicById")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "topics/{id}")] HttpRequest req,
-            string id
-            // ILogger log
+            string id,
+            ILogger log
             )
         {
-            // log.LogInformation($"Getting Topic by ID: {id}");
+            log.LogInformation($"Getting Topic by ID: {id}");
 
             var topic = new Contracts.Models.Topic();
 

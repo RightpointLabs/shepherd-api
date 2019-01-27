@@ -17,11 +17,11 @@ namespace FunctionApp.Functions
         [FunctionName("CreateCommitment")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = "topics/{id}/commitments")] HttpRequest req,
-            string id
-            // ILogger log
+            string id,
+            ILogger log
             )
         {
-            // log.LogInformation("Create Commitment request received");
+            log.LogInformation("Create Commitment request received");
 
             var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var commitmentRequest = JsonConvert.DeserializeObject<Contracts.CreateCommitmentRequest>(requestBody);
