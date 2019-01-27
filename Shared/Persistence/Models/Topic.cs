@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Shared.Persistence.Models
 {
@@ -11,5 +12,7 @@ namespace Shared.Persistence.Models
         public Guid RequestorId { get; set; }
 
         public User Requestor { get; set; }
+
+        public ICollection<Commitment> Commitments { get; set; }
     }
 }

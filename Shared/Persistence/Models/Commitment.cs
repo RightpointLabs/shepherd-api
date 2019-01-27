@@ -13,5 +13,9 @@ namespace Shared.Persistence.Models
         public Guid TypeId { get; set; }
 
         public CommitmentType Type { get; set; }
+
+        public Guid TopicId { get; set; }
+
+        public Topic Topic { get; set; }
     }
 }
