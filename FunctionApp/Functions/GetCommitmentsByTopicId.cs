@@ -24,10 +24,10 @@ namespace FunctionApp.Functions
         {
             log.LogInformation($"Getting all Commitments for Topic: {id}");
 
-            var optionsBuilder = new DbContextOptionsBuilder<Shared.Persistence.ShepherdContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<Persistence.ShepherdContext>();
             optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("ConnectionString"));
 
-            using (var context = new Shared.Persistence.ShepherdContext(optionsBuilder.Options))
+            using (var context = new Persistence.ShepherdContext(optionsBuilder.Options))
             {
                 var topic = await context.Topics.Include(x => x.Commitments).SingleOrDefaultAsync(x => x.Id == new Guid(id));
 
