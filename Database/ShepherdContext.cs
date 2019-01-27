@@ -72,9 +72,22 @@ namespace Database
                 .IsRequired();
 
             modelBuilder.Entity<Commitment>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.Commitments)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Commitment>()
                 .HasOne(x => x.Type)
                 .WithMany(x => x.Commitments)
-                .IsRequired();
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Commitment>()
+                .HasOne(x => x.Topic)
+                .WithMany(x => x.Commitments)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         private static void ConfigureCommitmentTypes(ModelBuilder modelBuilder)

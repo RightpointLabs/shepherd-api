@@ -1,5 +1,9 @@
+using System;
+using System.Linq;
 using Shared.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer;
+using Microsoft.Extensions.Configuration;
 
 namespace Shared.Persistence
 {
@@ -24,14 +28,20 @@ namespace Shared.Persistence
         {
             modelBuilder.Entity<T>()
                 .Property(x => x.Id)
+                .ValueGeneratedOnAdd()
+                .HasDefaultValueSql("newid()")
                 .IsRequired();
 
             modelBuilder.Entity<T>()
                 .Property(x => x.CreatedDate)
+                .ValueGeneratedOnAdd()
+                .HasDefaultValueSql("getutcdate()")
                 .IsRequired();
 
             modelBuilder.Entity<T>()
                 .Property(x => x.UpdatedDate)
+                .ValueGeneratedOnAddOrUpdate()
+                .HasDefaultValueSql("getutcdate()")
                 .IsRequired();
         }
 
@@ -52,9 +62,22 @@ namespace Shared.Persistence
                 .IsRequired();
 
             modelBuilder.Entity<Commitment>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.Commitments)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Commitment>()
                 .HasOne(x => x.Type)
                 .WithMany(x => x.Commitments)
-                .IsRequired();
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Commitment>()
+                .HasOne(x => x.Topic)
+                .WithMany(x => x.Commitments)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         private static void ConfigureCommitmentTypes(ModelBuilder modelBuilder)
@@ -65,6 +88,13 @@ namespace Shared.Persistence
                 .Property(x => x.Name)
                 .HasMaxLength(50)
                 .IsRequired();
+
+            modelBuilder.Entity<CommitmentType>()
+                .HasData(
+                    new CommitmentType { Id = new Guid("e130479b-8009-4941-a3ee-f0292bbcfe23"), Name = "BFF" },
+                    new CommitmentType { Id = new Guid("0a196ec9-4d23-4a32-84ff-dbf0852a898e"), Name = "Blog post" },
+                    new CommitmentType { Id = new Guid("606c603f-3997-4f5f-b115-b7629075428a"), Name = "Lightning talk" }
+                );
         }
 
         private static void ConfigureTopics(ModelBuilder modelBuilder)
@@ -108,6 +138,11 @@ namespace Shared.Persistence
             modelBuilder.Entity<User>()
                 .HasMany(x => x.Commitments)
                 .WithOne(x => x.User);
+
+            modelBuilder.Entity<User>()
+                .HasData(
+                    new User { Id = new Guid("1d982bf6-a353-4741-867c-ed2c46090984"), Name = "Brandon Barnett", TenantId = "Test" }
+                );
         }
     }
 }
