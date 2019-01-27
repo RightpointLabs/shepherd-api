@@ -11,11 +11,6 @@ namespace Database.Persistence
     {
         public ShepherdContext(DbContextOptions<ShepherdContext> options) : base(options) { }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("ConnectionString"));
-        }
-
         public DbSet<Commitment> Commitments { get; set; }
         public DbSet<CommitmentType> CommitmentTypes { get; set; }
         public DbSet<Topic> Topics { get; set; }
